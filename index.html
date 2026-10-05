@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Great Books Mock Exam</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#fff;--fg:#0b1f44;--mut:#5a6b8c;--b:#1d4ed8;--l:#eaf1ff;--ok:#15803d;--no:#b91c1c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1226;--fg:#e8eefc;--mut:#9fb0d3;--b:#60a5fa;--l:#14213f;--ok:#4ade80;--no:#f87171}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:22px/1.5 Georgia,serif}
+main{max-width:820px;margin:0 auto;padding:24px 18px 80px}h1{font-size:2.1rem;color:var(--b);margin:.3em 0}
+.card,.q{border:2px solid var(--b);border-radius:14px;padding:18px;margin:16px 0;background:var(--bg)}
+button{font:inherit;font-size:1.1rem;background:var(--b);color:#fff;border:0;border-radius:10px;padding:12px 22px;cursor:pointer}
+button.alt{background:var(--l);color:var(--b)}
+label{display:block;padding:12px 14px;margin:8px 0;border:2px solid var(--l);border-radius:10px;cursor:pointer}
+label:hover{border-color:var(--b)}input{margin-right:10px;transform:scale(1.3)}
+.q p{font-weight:bold;margin:0 0 8px}.ok{border-color:var(--ok);background:var(--l)}.no{border-color:var(--no)}
+.ex{color:var(--mut);font-size:1rem;margin-top:8px}.bar{position:sticky;top:0;background:var(--bg);padding:10px 0;font-size:1rem;color:var(--mut);border-bottom:2px solid var(--l)}
+.sc{font-size:2.4rem;color:var(--b)}
+</style></head><body><main id="app"></main>
+<script>
+// Format: [question, [options], correctIndex, explanation]
+const TFo=["True","False"];
+const SETS={
+A:{t:"mc",name:"Set A — Multiple Choice (Concepts)",desc:"Pick the best answer. Covers every text.",q:[
+["The parable of the Rich Man and Lazarus is found in which Gospel?","Luke","Matthew","John","Mark","Luke 16:19–31."],
+["How is Lazarus described at the rich man's gate?","Covered with sores, longing for scraps","A blind prophet","A hired servant","A tax collector","He is poor, sick, and ignored."],
+["Where does Lazarus go after death?","Carried by angels to Abraham's side","Hades","Back to life","The Temple","Reversal of fortune."],
+["What is the rich man's FIRST request to Abraham?","Lazarus to cool his tongue with water","Release from Hades","A prophet for his friends","More wealth","He asks for mercy and relief."],
+["Why does Abraham say their fates are reversed?","Each received in life what they did; now it is reversed","Lazarus prayed more","The rich man was taxed","It was chance","Good things then, comfort now, and the reverse."],
+["Why does Abraham refuse to send Lazarus to the brothers?","They have Moses and the prophets","Lazarus is too weak","Abraham lacks power","Brothers are dead","Even a resurrection would not convince them."],
+["How many brothers does the rich man have?","Five","Three","Seven","Twelve","Five."],
+["The rich man's central moral failure is…","Indifference to the suffering at his gate","Being wealthy","Doubting Abraham","Eating too much","Neglect of a neighbor, not wealth itself."],
+["Who wrote 'Why Are Filipinos Poor?'","F. Sionil José","Nick Joaquin","José Rizal","Carlos Bulosan","Sionil José."],
+["Which is NOT one of the reasons on your board?","We have too many islands","We are lazy","We don't save","We were colonized","Not on the board."],
+["'We are poor because we are poor' is an example of…","A vicious cycle","A solution","A proof","Satire","Poverty reproduces itself."],
+["Why is colonization alone an incomplete explanation?","Some formerly colonized nations prospered, and it can excuse present failures","Colonization never happened","It has no effect","It only affects farmers","History matters, but is not the whole story."],
+["'Lost our ethical moorings' means we lost…","Our moral anchors: integrity and public service","Our ships","Our land","Our language","A moral cause of poverty."],
+["Failure to pursue agrarian reform concerns…","Land distribution to farmers","Taxes","Foreign trade","Literacy only","Land reform."],
+["Producing mostly raw materials keeps an economy…","Dependent and low in value","Rich","Self-sufficient","Industrial","No value-adding industry."],
+["'We don't save' points to a lack of…","Thrift and long-term planning","Land","Faith","Talent","Short-term thinking."],
+["'The Will of the River' is classified in your coverage as a(n)…","Essay","Poem","Parable","Epic","Essay."],
+["What mainly distinguishes a short story from an essay?","A narrative with characters, plot and conflict","Rhyme","Argument only","Length in lines","Story shows; essay argues."],
+["'Manang Merin & The Top' belongs to which genre?","Short story","Essay","Epic","Parable","Short story."],
+["The theme of a story is…","Its central insight about life","Its setting","Its title","Its length","Theme is the underlying idea."],
+["'In Heaven' is listed under which genre?","Poem","Essay","Epic","Short story","Poem."],
+["Who wrote The Prophet?","Kahlil Gibran","Rumi","Tagore","Neruda","Gibran, 1923."],
+["Who is the prophet in The Prophet?","Almustafa","Almitra","Orphalese","Gilead","Almustafa."],
+["Who asks the prophet to speak of children?","A woman holding a babe","Almitra","A priest","A child","The woman with the babe."],
+["According to 'On Children', your children are…","Sons and daughters of Life's longing for itself","Your property","Your reflections","Your servants","They come through you, not from you."],
+["In the poem's metaphor, the children are…","Living arrows","The bow","The archer","The target","Parents are bows."],
+["The archer in 'On Children' represents…","The Infinite (God)","The parent","The teacher","The child","The archer sees the mark on the path of the infinite."],
+["Where do the children's souls dwell?","The house of tomorrow","The house of yesterday","Heaven only","The parents' home","Parents cannot visit it, even in dreams."],
+["Parents may give children…","Love, but not their thoughts","Thoughts, not love","Souls","Futures","Children have their own thoughts."],
+["An epic is best defined as…","A long narrative poem of heroic deeds","A short moral story","A personal reflection","A funeral song","Homer's Iliad is the model."],
+["The Iliad is attributed to…","Homer","Virgil","Sophocles","Hesiod","Homer."],
+["The Iliad opens with the theme of…","The wrath of Achilles","The fall of Troy","Odysseus's return","Helen's beauty","Wrath (menis)."],
+["What causes Apollo's plague on the Greeks?","Agamemnon refuses to return Chryseis","Achilles insulted Apollo","Paris killed a priest","Hector burned the ships","Her father is Apollo's priest."],
+["Briseis is…","The war prize Agamemnon takes from Achilles","Hector's sister","Priam's wife","A goddess","This ignites Achilles' rage."],
+["Who asks Zeus to honor her son Achilles?","Thetis","Hera","Athena","Aphrodite","Thetis."],
+["Who took Helen to Troy?","Paris","Hector","Priam","Aeneas","Paris, Hector's brother."],
+["Which goddess promised Helen to Paris and rescues him from Menelaus?","Aphrodite","Athena","Hera","Artemis","Aphrodite."],
+["The embassy to Achilles (Odysseus, Ajax, Phoenix) results in…","His refusal to return","His return","His death","A truce","He stays out until Patroclus dies."],
+["Patroclus enters battle wearing…","Achilles' armor","Hector's helmet","A Trojan disguise","No armor","He is mistaken for Achilles."],
+["Who kills Patroclus?","Hector","Paris","Aeneas","Priam","Hector, with Apollo's help."],
+["Who forges Achilles' new armor?","Hephaestus","Ares","Hermes","Apollo","The smith god."],
+["After killing Hector, Achilles…","Drags the body behind his chariot","Buries him immediately","Lets him go","Returns to Greece","He dishonors the body."],
+["Who guides Priam to Achilles' tent?","Hermes","Apollo","Athena","Zeus","Hermes."],
+["Who is Hector's wife?","Andromache","Helen","Briseis","Hecuba","Andromache."],
+["How does the Iliad end?","With Hector's funeral","With the fall of Troy","With Achilles' death","With the wooden horse","After Priam ransoms the body."],
+["Which is true of the film Troy?","It condenses and alters events and omits the gods","It is word-for-word the Iliad","It was written by Homer","It ends at Hector's funeral","Answer from the text, not the film."],
+["Hector fights Achilles despite certain defeat because of…","Duty and honor to his city","Greed","Divine order","Friendship with Achilles","Honor over safety."],
+["Which is NOT one of the four forms of poverty on your board?","Political","Financial","Mental","Physical","Four: financial, mental, spiritual, physical."],
+["Spiritual poverty is best shown by…","Having everything yet lacking compassion or faith","Having no income","Poor health","Being illiterate","Emptiness of meaning."],
+["Which text best condemns someone rich who ignores the poor near him?","The Rich Man and Lazarus","On Children","The Iliad","Troy","His wealth ends in torment."]]},
+B:{t:"tf",name:"Set B — True or False (Tricky)",desc:"Every statement hides a trap. Read slowly.",q:[
+["Lazarus is the only named character in the parable.",true,"The rich man is anonymous."],
+["The rich man is named in the parable.",false,"Only Lazarus is named."],
+["The rich man is condemned simply because he is rich.",false,"His fault is neglect."],
+["Dogs licked Lazarus's sores.",true,"Detail in Luke 16."],
+["Both men end up at Abraham's side.",false,"Only Lazarus."],
+["A chasm prevents crossing between them.",true,"Fixed by Abraham."],
+["Abraham agrees to send Lazarus to warn the brothers.",false,"He refuses."],
+["Abraham says even a resurrection wouldn't convince those ignoring Moses.",true,"Yes."],
+["The parable shows a reversal of fortunes.",true,"Yes."],
+["'Why Are Filipinos Poor?' is an essay by F. Sionil José.",true,"Yes."],
+["'Why Are Filipinos Poor?' is a poem.",false,"It is an essay."],
+["Laziness is the only reason on your board.",false,"There are seven."],
+["'We are poor because we are poor' describes a vicious cycle.",true,"Yes."],
+["Colonization fully explains the poverty of every nation.",false,"Incomplete."],
+["Loss of ethical moorings is a moral cause of poverty.",true,"Yes."],
+["Agrarian reform concerns land distribution.",true,"Yes."],
+["Exporting mostly raw materials guarantees wealth.",false,"Value-adding matters."],
+["Your outline lists four forms of poverty.",true,"Financial, mental, spiritual, physical."],
+["Mental poverty can coexist with wealth.",true,"It is about mindset."],
+["Spiritual poverty is solved by money.",false,"It is about meaning and faith."],
+["Physical poverty concerns bodily needs.",true,"Yes."],
+["'The Will of the River' is classified as an essay.",true,"Per coverage."],
+["'Manang Merin & The Top' is classified as a short story.",true,"Per coverage."],
+["'In Heaven' is classified as an epic.",false,"A poem."],
+["Short stories rely on plot, characters and conflict.",true,"Yes."],
+["Kahlil Gibran wrote The Prophet.",true,"Yes."],
+["'On Children' is part of The Prophet.",true,"Yes."],
+["Gibran says children are the property of their parents.",false,"They are not."],
+["Parents may give children their love but not their thoughts.",true,"Yes."],
+["Parents may house children's souls.",false,"Only their bodies."],
+["In the poem, parents are the arrows.",false,"Parents are bows."],
+["Parents should make children like themselves.",false,"Strive to be like them."],
+["'Life goes backward and tarries with yesterday.'",false,"It goes not backward."],
+["The archer loves both the arrow and the stable bow.",true,"Yes."],
+["The Iliad was composed by Homer.",true,"Attributed to Homer."],
+["The Iliad narrates the entire ten-year war.",false,"Only a few weeks of year ten."],
+["The Trojan Horse appears in the Iliad.",false,"It is in later works."],
+["The Iliad begins with Achilles' wrath.",true,"Yes."],
+["Chryseis is the daughter of a priest of Apollo.",true,"Yes."],
+["Agamemnon takes Briseis from Achilles.",true,"Yes."],
+["Achilles accepts the embassy's offer.",false,"He refuses."],
+["Achilles kills Patroclus.",false,"Hector does."],
+["Hector kills Patroclus.",true,"Yes."],
+["Achilles kills Hector.",true,"Yes."],
+["Priam begs Achilles for Hector's body.",true,"Yes."],
+["The Iliad ends with Achilles' death.",false,"It ends with Hector's funeral."],
+["The film Troy follows the Iliad exactly.",false,"It alters it."],
+["In the film Troy, the gods appear as characters.",false,"They are absent."],
+["Paris is Hector's brother.",true,"Yes."],
+["Hector is a Greek warrior.",false,"He is Trojan."]]},
+C:{t:"id",name:"Set C — Identification (Type Your Answer)",desc:"No choices. Spelling is forgiving.",q:[
+["Author of the Iliad","Homer"],["Gospel containing the Lazarus parable","Luke"],["Name of the beggar at the gate","Lazarus"],["What separates Hades from Abraham's side?","chasm|gulf"],
+["Author of The Prophet","Gibran"],["Author of 'Why Are Filipinos Poor?'","Sionil Jose|Jose"],["Name of the prophet in The Prophet","Almustafa"],["Greek hero whose rage drives the epic","Achilles"],
+["Commander of the Greeks","Agamemnon"],["Chief Trojan warrior","Hector"],["King of Troy","Priam"],["Helen's husband","Menelaus"],["Prince who took Helen","Paris"],
+["Achilles' dear friend","Patroclus"],["Achilles' mother","Thetis"],["God who sent the plague","Apollo"],["Goddess who rescued Paris","Aphrodite"],["God who forged Achilles' armor","Hephaestus"],
+["Hector's wife","Andromache"],["Hector's infant son","Astyanax"],["Priest's daughter returned to her father","Chryseis"],["War prize taken from Achilles","Briseis"],["Old wise Greek counselor","Nestor"],
+["God who guides Priam","Hermes"],["Opening theme of the Iliad (one word)","wrath|rage|anger|menis"],["Film adaptation title","Troy"],["Story form that teaches a moral (Rich Man and Lazarus)","parable"],
+["Genre of 'The Will of the River'","essay"],["Genre of 'Manang Merin & The Top'","short story"],["Genre of 'In Heaven'","poem"],["Genre of the Iliad","epic"],
+["Poverty of money","financial"],["Poverty of faith and meaning","spiritual"],["Poverty of mindset","mental"],["Poverty of bodily needs","physical"],
+["Board reason: 'We don't ___'","save"],["Board reason: 'We were ___'","colonized"],["Board reason: 'We lost our ethical ___'","moorings"],["Board reason: 'We didn't pursue ___ reform'","agrarian"],["Board reason: 'We produce ___ materials'","raw"],
+["Kind of reasoning in 'poor because poor'","vicious cycle|vicious circle"],["What children are, in On Children","arrows|arrow"],["What parents are, in On Children","bows|bow"],["Where children's souls dwell","house of tomorrow|tomorrow"],
+["Who aims the bow in On Children?","archer"],["Number of the rich man's brothers","five|5"],["Whom Abraham says the brothers have","Moses|prophets"],["Who kills Patroclus?","Hector"],["Besieged city","Troy|Ilium"],["Where the rich man suffers","Hades"]]}
+};
+const app=document.getElementById("app");let cur,order;
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+function home(){app.innerHTML=`<h1>Great Books Mock Exam</h1><p>Parable · Essays · Short Story · Poems · Epic · Poverty</p>`+Object.keys(SETS).map(k=>`<div class="card"><h2 style="margin:0">${SETS[k].name}</h2><p>${SETS[k].desc} (${SETS[k].q.length} items)</p><button onclick="start('${k}')">Start</button></div>`).join("")}
+function start(k){cur=k;order=SETS[k].q.map(q=>{const t=q[1][q[2]],o=q[1]===TF?TF:sh(q[1]);return{q:q[0],o,a:o.indexOf(t),e:q[3]}});
+app.innerHTML=`<div class="bar">${SETS[k].name} — answer all, then submit</div>`+order.map((x,i)=>`<div class="q" id="q${i}"><p>${i+1}. ${x.q}</p>`+x.o.map((o,j)=>`<label><input type="radio" name="n${i}" value="${j}">${o}</label>`).join("")+`</div>`).join("")+`<button onclick="grade()">Submit</button> <button class="alt" onclick="home()">Exit</button>`;scrollTo(0,0)}
+function grade(){let s=0;order.forEach((x,i)=>{const c=document.querySelector(`input[name=n${i}]:checked`),box=document.getElementById("q"+i),L=box.querySelectorAll("label");const v=c?+c.value:-1;if(v===x.a)s++;L[x.a].classList.add("ok");if(v>=0&&v!==x.a)L[v].classList.add("no");box.insertAdjacentHTML("beforeend",`<div class="ex">${v===x.a?"✔ Correct. ":"✘ Answer: "+x.o[x.a]+". "}${x.e}</div>`);box.querySelectorAll("input").forEach(n=>n.disabled=true)});
+app.insertAdjacentHTML("afterbegin",`<div class="card"><div class="sc">${s} / ${order.length}</div><button onclick="start('${cur}')">Retake</button> <button class="alt" onclick="home()">Home</button></div>`);scrollTo(0,0)}
+const nm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+function start(k){cur=k;const S=SETS[k];order=S.q.map(r=>{if(S.t=="mc"){const o=sh(r.slice(1,5));return{t:"mc",q:r[0],o,a:o.indexOf(r[1]),e:r[5]}}if(S.t=="tf")return{t:"tf",q:r[0],o:TFo,a:r[1]?0:1,e:r[2]};return{t:"id",q:r[0],al:r[1].split("|")}});
+app.innerHTML=`<div class="bar">${S.name} — answer all, then submit</div>`+order.map((x,i)=>`<div class="q" id="q${i}"><p>${i+1}. ${x.q}</p>`+(x.t=="id"?`<input type="text" id="t${i}" autocomplete="off" style="width:100%;font:inherit;padding:12px;border:2px solid var(--b);border-radius:10px;background:var(--bg);color:var(--fg)">`:x.o.map((o,j)=>`<label><input type="radio" name="n${i}" value="${j}">${o}</label>`).join(""))+`</div>`).join("")+`<button onclick="grade()">Submit</button> <button class="alt" onclick="home()">Exit</button>`;scrollTo(0,0)}
+function grade(){let s=0;order.forEach((x,i)=>{const box=document.getElementById("q"+i);let ok,msg;
+if(x.t=="id"){const t=document.getElementById("t"+i);const v=nm(t.value);ok=v.length>0&&x.al.some(a=>v.includes(nm(a)));t.disabled=true;t.style.borderColor=ok?"var(--ok)":"var(--no)";msg=ok?"✔ Correct.":"✘ Answer: "+x.al[0]}
+else{const c=box.querySelector("input:checked"),L=box.querySelectorAll("label"),v=c?+c.value:-1;ok=v===x.a;L[x.a].classList.add("ok");if(v>=0&&!ok)L[v].classList.add("no");box.querySelectorAll("input").forEach(n=>n.disabled=true);msg=(ok?"✔ Correct. ":"✘ Answer: "+x.o[x.a]+". ")+x.e}
+if(ok)s++;box.insertAdjacentHTML("beforeend",`<div class="ex">${msg}</div>`)});
+app.insertAdjacentHTML("afterbegin",`<div class="card"><div class="sc">${s} / ${order.length}</div><button onclick="start('${cur}')">Retake</button> <button class="alt" onclick="home()">Home</button></div>`);scrollTo(0,0)}
+home();
+</script></body></html>
