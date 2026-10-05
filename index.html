@@ -133,20 +133,55 @@ C:{t:"id",name:"Set C — Identification (Type Your Answer)",desc:"No choices. S
 ["Kind of reasoning in 'poor because poor'","vicious cycle|vicious circle"],["What children are, in On Children","arrows|arrow"],["What parents are, in On Children","bows|bow"],["Where children's souls dwell","house of tomorrow|tomorrow"],
 ["Who aims the bow in On Children?","archer"],["Number of the rich man's brothers","five|5"],["Whom Abraham says the brothers have","Moses|prophets"],["Who kills Patroclus?","Hector"],["Besieged city","Troy|Ilium"],["Where the rich man suffers","Hades"]]}
 };
+const EX={
+A:[
+["Who says 'Father Abraham, have mercy on me' in the parable?","The rich man","Lazarus","An angel","One of the five brothers","Said from Hades."],
+["Who says 'Child, remember that you received your good things in your lifetime'?","Abraham","The rich man","Lazarus","Moses","Abraham explains the reversal."],
+["What was the rich man dressed in?","Purple and fine linen","Sackcloth","A priest's robe","Rags","Marks his luxury."],
+["What did Lazarus long to eat?","What fell from the rich man's table","A feast","Bread from angels","Fruit","Crumbs."],
+["Who says 'I kiss the hands of the man who killed my son'?","Priam","Hector","Agamemnon","Menelaus","Priam begs Achilles in Book 24."],
+["Who tells Odysseus he hates the man who says one thing and hides another in his heart?","Achilles","Ajax","Nestor","Diomedes","Book 9, rejecting the embassy."],
+["Why does Hector remove his helmet before baby Astyanax?","The plume frightens the child","He is surrendering","He is hot","Andromache orders it","Tender scene with Andromache."],
+["Glaucus and Diomedes exchange armor. What is the trade?","Gold for bronze","Bronze for gold","Shield for sword","Helmet for spear","Guest-friendship between enemies."],
+["Who are the parents of Hector and Paris?","Priam and Hecuba","Priam and Helen","Agamemnon and Clytemnestra","Peleus and Thetis","Trojan royal family."],
+["Agamemnon and Menelaus are the sons of…","Atreus","Peleus","Priam","Laertes","The Atreidae."],
+["Achilles' father is…","Peleus","Priam","Atreus","Odysseus","Son of Peleus and Thetis."],
+["Who says 'You are the bows from which your children as living arrows are sent forth'?","Almustafa","Almitra","Gibran as a character named Orphalese","The archer","The prophet answers the woman with a babe."]],
+B:[
+["Priam is the father of both Hector and Paris.",true,"Yes."],
+["Menelaus and Agamemnon are brothers.",true,"Sons of Atreus."],
+["Achilles' father is Priam.",false,"Peleus."],
+["Hecuba is Hector's wife.",false,"His mother; Andromache is his wife."],
+["Astyanax is Hector's son.",true,"Yes."],
+["Cassandra is Hector's sister.",true,"Priam's daughter."],
+["The rich man in the parable is dressed in purple and fine linen.",true,"Yes."],
+["Lazarus longs for the crumbs from the rich man's table.",true,"Yes."],
+["Hector takes off his helmet because its plume frightens his baby.",true,"Yes."],
+["Glaucus and Diomedes trade gold armor for bronze.",true,"Yes."],
+["Priam kisses the hands of the man who killed his son.",true,"Yes."],
+["Achilles says he hates one who says one thing and hides another in his heart.",true,"Said to Odysseus."]],
+C:[
+["Priam's wife","Hecuba"],["Father of Hector and Paris","Priam"],["Agamemnon's father","Atreus"],["Achilles' father","Peleus"],["Hector's prophetess sister","Cassandra"],
+["Who says 'Father Abraham, have mercy on me'?","rich man"],["Who says 'Child, remember that you received your good things'?","Abraham"],
+["Who says 'I kiss the hands of the man who killed my son'?","Priam"],["Who hates the man who hides one thing in his heart and says another?","Achilles"],
+["Who removes his helmet so his baby is not frightened?","Hector"],["Glaucus exchanges armor with whom?","Diomedes"],["What did the rich man wear? (two words)","purple|linen"]]};
+const W={A:["classified in your coverage","belongs to which genre","listed under which genre","Spiritual poverty is best","Hector fights Achilles","Which is true of the film","Which text best condemns","The theme of a story","What mainly distinguishes","The Iliad is attributed","An epic is best defined","How many brothers"],
+B:["classified as","Your outline lists","composed by Homer","Kahlil Gibran wrote","Hector is a Greek","Dogs licked","A chasm prevents","Both men end up","Laziness is the only"],
+C:["Genre of","Poverty of","Besieged city","King of Troy","Author of the Iliad","Where the rich man suffers"]};
+for(const k in SETS)SETS[k].q=EX[k].concat(SETS[k].q.filter(r=>!W[k].some(w=>r[0].includes(w)))).slice(0,50);
 const app=document.getElementById("app");let cur,order;
 const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-function home(){app.innerHTML=`<h1>Great Books Mock Exam</h1><p>Parable · Essays · Short Story · Poems · Epic · Poverty</p>`+Object.keys(SETS).map(k=>`<div class="card"><h2 style="margin:0">${SETS[k].name}</h2><p>${SETS[k].desc} (${SETS[k].q.length} items)</p><button onclick="start('${k}')">Start</button></div>`).join("")}
+function home(){app.innerHTML=`<h1>Great Books Mock Exam</h1><p>Parable · Essays · Short Story · Poems · Epic · Poverty</p>`+Object.keys(SETS).map(k=>`<div class="card"><h2 style="margin:0">${SETS[k].name}</h2><p>${SETS[k].desc} (${SETS[k].q.length} items, instant feedback)</p><button onclick="start('${k}')">Start</button></div>`).join("")}
 function start(k){cur=k;order=SETS[k].q.map(q=>{const t=q[1][q[2]],o=q[1]===TF?TF:sh(q[1]);return{q:q[0],o,a:o.indexOf(t),e:q[3]}});
 app.innerHTML=`<div class="bar">${SETS[k].name} — answer all, then submit</div>`+order.map((x,i)=>`<div class="q" id="q${i}"><p>${i+1}. ${x.q}</p>`+x.o.map((o,j)=>`<label><input type="radio" name="n${i}" value="${j}">${o}</label>`).join("")+`</div>`).join("")+`<button onclick="grade()">Submit</button> <button class="alt" onclick="home()">Exit</button>`;scrollTo(0,0)}
 function grade(){let s=0;order.forEach((x,i)=>{const c=document.querySelector(`input[name=n${i}]:checked`),box=document.getElementById("q"+i),L=box.querySelectorAll("label");const v=c?+c.value:-1;if(v===x.a)s++;L[x.a].classList.add("ok");if(v>=0&&v!==x.a)L[v].classList.add("no");box.insertAdjacentHTML("beforeend",`<div class="ex">${v===x.a?"✔ Correct. ":"✘ Answer: "+x.o[x.a]+". "}${x.e}</div>`);box.querySelectorAll("input").forEach(n=>n.disabled=true)});
 app.insertAdjacentHTML("afterbegin",`<div class="card"><div class="sc">${s} / ${order.length}</div><button onclick="start('${cur}')">Retake</button> <button class="alt" onclick="home()">Home</button></div>`);scrollTo(0,0)}
-const nm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
-function start(k){cur=k;const S=SETS[k];order=S.q.map(r=>{if(S.t=="mc"){const o=sh(r.slice(1,5));return{t:"mc",q:r[0],o,a:o.indexOf(r[1]),e:r[5]}}if(S.t=="tf")return{t:"tf",q:r[0],o:TFo,a:r[1]?0:1,e:r[2]};return{t:"id",q:r[0],al:r[1].split("|")}});
-app.innerHTML=`<div class="bar">${S.name} — answer all, then submit</div>`+order.map((x,i)=>`<div class="q" id="q${i}"><p>${i+1}. ${x.q}</p>`+(x.t=="id"?`<input type="text" id="t${i}" autocomplete="off" style="width:100%;font:inherit;padding:12px;border:2px solid var(--b);border-radius:10px;background:var(--bg);color:var(--fg)">`:x.o.map((o,j)=>`<label><input type="radio" name="n${i}" value="${j}">${o}</label>`).join(""))+`</div>`).join("")+`<button onclick="grade()">Submit</button> <button class="alt" onclick="home()">Exit</button>`;scrollTo(0,0)}
-function grade(){let s=0;order.forEach((x,i)=>{const box=document.getElementById("q"+i);let ok,msg;
-if(x.t=="id"){const t=document.getElementById("t"+i);const v=nm(t.value);ok=v.length>0&&x.al.some(a=>v.includes(nm(a)));t.disabled=true;t.style.borderColor=ok?"var(--ok)":"var(--no)";msg=ok?"✔ Correct.":"✘ Answer: "+x.al[0]}
-else{const c=box.querySelector("input:checked"),L=box.querySelectorAll("label"),v=c?+c.value:-1;ok=v===x.a;L[x.a].classList.add("ok");if(v>=0&&!ok)L[v].classList.add("no");box.querySelectorAll("input").forEach(n=>n.disabled=true);msg=(ok?"✔ Correct. ":"✘ Answer: "+x.o[x.a]+". ")+x.e}
-if(ok)s++;box.insertAdjacentHTML("beforeend",`<div class="ex">${msg}</div>`)});
-app.insertAdjacentHTML("afterbegin",`<div class="card"><div class="sc">${s} / ${order.length}</div><button onclick="start('${cur}')">Retake</button> <button class="alt" onclick="home()">Home</button></div>`);scrollTo(0,0)}
+const nm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");let done,sc,ans;
+function upd(){document.getElementById("sc").textContent=`Score: ${sc} / ${ans} answered (of ${order.length})`}
+function start(k){cur=k;const S=SETS[k];done={};sc=0;ans=0;order=sh(S.q).map(r=>{if(S.t=="mc"){const o=sh(r.slice(1,5));return{t:"mc",q:r[0],o,a:o.indexOf(r[1]),e:r[5]}}if(S.t=="tf")return{t:"tf",q:r[0],o:TFo,a:r[1]?0:1,e:r[2]};return{t:"id",q:r[0],al:r[1].split("|")}});
+app.innerHTML=`<div class="bar"><b>${S.name}</b><br><span id="sc"></span> · <a href="#" onclick="home();return false">Exit</a></div>`+order.map((x,i)=>`<div class="q" id="q${i}"><p>${i+1}. ${x.q}</p>`+(x.t=="id"?`<input type="text" id="t${i}" autocomplete="off" onkeydown="if(event.key=='Enter')chk(${i})" style="width:100%;font:inherit;padding:12px;border:2px solid var(--b);border-radius:10px;background:var(--bg);color:var(--fg)"><p><button onclick="chk(${i})">Check</button></p>`:x.o.map((o,j)=>`<label onclick="pick(${i},${j})">${o}</label>`).join(""))+`</div>`).join("")+`<button onclick="start('${k}')">Restart (reshuffle)</button> <button class="alt" onclick="home()">Home</button>`;upd();scrollTo(0,0)}
+function fin(i,ok,msg){done[i]=1;ans++;if(ok)sc++;document.getElementById("q"+i).insertAdjacentHTML("beforeend",`<div class="ex" style="color:var(--${ok?"ok":"no"})">${msg}</div>`);upd()}
+function pick(i,j){if(done[i])return;const x=order[i],L=document.getElementById("q"+i).querySelectorAll("label");L[x.a].classList.add("ok");if(j!=x.a)L[j].classList.add("no");fin(i,j==x.a,(j==x.a?"✔ Correct. ":"✘ Answer: "+x.o[x.a]+". ")+x.e)}
+function chk(i){if(done[i])return;const x=order[i],t=document.getElementById("t"+i),v=nm(t.value);if(!v)return;const ok=x.al.some(a=>v.includes(nm(a)));t.disabled=true;t.style.borderColor=ok?"var(--ok)":"var(--no)";fin(i,ok,ok?"✔ Correct.":"✘ Answer: "+x.al[0])}
 home();
 </script></body></html>
